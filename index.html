@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>WebPMT - Pattern Matching Tool for Web</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular.min.js"></script>
+
+    <script src="js/exact-string-matching/boyer-moore/boyer-moore.module.js"></script>
+    <script src="js/exact-string-matching/boyer-moore/boyer-moore.service.js"></script>
+    <script src="js/exact-string-matching/kmp/kmp.module.js"></script>
+    <script src="js/exact-string-matching/kmp/kmp.service.js"></script>
+    <script src="js/webpmt-app.module.js"></script>
+    <script src="js/webpmt-app.controller.js"></script>
+  </head>
+  <body>
+    <div id="wrapper" ng-app="webpmtApp" ng-controller="WebPMTController as controller">
+      <!--Sidebar-->
+      <div id="sidebar-wrapper">
+        <ul class="sidebar-nav">
+          <li class="sidebar-logo">
+            <a href="index.html">WebPMT</a>
+          </li>
+          <li>
+            <a id="choose-file" href="javascript:">Choose File</a>
+            <input id="input-file" type="file" name="input-file" style="display: none;"/>
+          </li>
+          <li class="sidebar-dropdown">
+            <a id="options-toggle" href="javascript:">
+              Choose Algorithm
+              <span class="caret"></span>
+            </a>
+            <ul class="sidebar-dropdown-content">
+              <li>
+                <a id="kmp" href="javascript:" ng-click="controller.setAlgorithm('kmp')">KMP</a>
+              </li>
+              <li>
+                <a id="boyer-moore" href="javascript:" ng-click="controller.setAlgorithm('boyer-moore')">
+                  Boyer-Moore
+                </a>
+              </li>
+              <!--<li>
+                <a id="aho-corasick" href="javascript:" ng-click="controller.setAlgorithm('aho-corasick')">
+                  Aho-Corasick
+                </a>
+              </li>-->
+            </ul>
+          </li>
+        </ul>
+      </div>
+
+      <nav id="content-bar" class="navbar navbar-default">
+        <form class="navbar-form navbar-left">
+          <div class="input-group">
+            <input id="pattern-input" type="text" class="form-control" placeholder="Search for Pattern">
+            <div class="input-group-btn">
+              <button id="search-btn" type="button" class="btn btn-default" ng-click="controller.findMatches()">
+                <span class="glyphicon glyphicon-search"></span>
+              </button>
+            </div>
+          </div>
+        </form>
+      </nav>
+
+      <!--Info about this tool-->
+      <div id="content-wrapper">
+        <h2>WebPMT</h2>
+        <p>
+          A web tool for string matching algorithms. You may use this tool to check and benchmark
+          your own string matching methods.
+        </p>
+        <h3>How to Use</h3>
+        <ul>
+          <li>  
+            Choose a <b>text file</b> from your computer. Its content will be loaded on this page.
+          </li>
+          <li>
+            Choose the <b>algorithm</b> you want to use to perform the string matching. The chosen
+            algorithm will be highlighted on the dropdown list.
+          </li>
+          <li>
+            On the content bar, there is an area you must fill with the <b>pattern</b> you want to
+            find on the loaded file.
+          </li>
+          <li>
+            <b>Run</b> this application and check the benchmarking information on the content bar.
+          </li>
+        </ul>
+      </div>
+    <!--<script src="js/reader.js"></script>-->
+    <script>
+      $(document).ready(function() {
+        // Dropdown menu toggle function
+        $("#options-toggle").click(function(event){
+          event.preventDefault();
+          $(".sidebar-dropdown").toggleClass("toggled");
+        });
+
+        // Toggle chosen option on sidebar dropdown content.
+        var kmpBtn = $("#kmp");
+        var boyerMooreBtn = $("#boyer-moore");
+
+        kmpBtn.click(function(event) {
+          event.preventDefault();
+          kmpBtn.addClass("active");
+
+          if (boyerMooreBtn.hasClass("active")) {
+            boyerMooreBtn.removeClass("active");
+          }
+        });
+
+        boyerMooreBtn.click(function(event) {
+          event.preventDefault();
+          boyerMooreBtn.addClass("active");
+
+          if (kmpBtn.hasClass("active")) {
+            kmpBtn.removeClass("active");
+          }
+        });
+        
+        // Set z-index of both bars (sidebar and content bar) properly. Since I'm using Bootstrap
+        // and I don't know the z-index of each class of Bootstrap, I'm performing this little task
+        // below.
+        var maxIndex = 0;
+
+        $("#wrapper").find("*").each(function() {
+          var currIndex = parseInt($(this).css("z-index"));
+          if (maxIndex < currIndex) {
+            maxIndex = currIndex;
+          }
+        });
+
+        $("#content-bar").css("z-index", maxIndex + 1);
+        $("#sidebar-wrapper").css("z-index", maxIndex + 2);
+
+        // Choose file.
+        $("#choose-file").click(function(event) {
+          event.preventDefault();
+          $("#input-file").trigger("click");
+        });
+
+        // Read chosen file.
+        $("#input-file").on("change", function(event) {
+          var ctrl = angular.element(document.getElementById("wrapper")).controller();
+          ctrl.readFile(this.files[0], event);
+        });
+
+        // Trigger search button click on Enter press.
+        $("#pattern-input").keyup(function(event) {
+          if (event.keyCode == 13) {
+            $("#search-btn").click();
+          }
+        })
+      });
+    </script>
+    </div>
+  </body>
+</html>

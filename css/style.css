@@ -1,0 +1,149 @@
+/*Fonts*/
+@font-face {
+  font-family: GandhiSans-Bold;
+  font-style: normal;
+  src: url(../fonts/GandhiSans-Bold.otf);
+}
+
+@font-face {
+  font-family: GandhiSans-BoldItalic;
+  font-style: normal;
+  src: url(../fonts/GandhiSans-BoldItalic.otf);
+}
+
+@font-face {
+  font-family: GandhiSans-Italic;
+  font-style: normal;
+  src: url(../fonts/GandhiSans-italic.otf);
+}
+
+@font-face {
+  font-family: GandhiSans-Regular;
+  font-style: normal;
+  src: url(../fonts/GandhiSans-Regular.otf);
+}
+
+/* body {
+  overflow-x: hidden;
+}*/
+
+#wrapper {
+  padding-left: 160px;
+}
+
+/* Content */
+#content-wrapper {
+  position: absolute;
+  margin-top: 40px;
+  padding: 20px;
+
+  width: -webkit-calc(100% - 160px);
+  width: -moz-calc(100% - 160px);
+  width: calc(100% - 160px);
+}
+
+#content-wrapper ul {
+  padding-left: 25px;
+}
+
+/* Content bar */
+#content-bar {
+  position: fixed;
+  border-radius: 0px;
+
+  width: -webkit-calc(100% - 160px);
+  width: -moz-calc(100% - 160px);
+  width: calc(100% - 160px);
+}
+
+/* Sidebar */
+#sidebar-wrapper {
+  margin-left: -160px;
+  left: 160px;
+  width: 160px;
+  height: 100%;
+  background-color: rgb(0, 0, 0);
+  position: fixed;
+  overflow-y: auto;
+}
+
+.sidebar-nav {
+  list-style: none;
+  position: absolute;
+  margin: 0px;
+  padding: 0px;
+  top: 0px;
+  width: 160px;
+}
+
+.sidebar-dropdown {
+  position: relative;
+  display: inline-block;
+  width: 160px;
+}
+
+.sidebar-dropdown-content {
+  margin: 0px;
+  padding: 0px;
+  display: none;
+  list-style: none;
+  position: absolute;
+  width: 160px;
+  background-color: rgba(255, 255, 255, 0.9);
+  z-index: 1;
+}
+
+.sidebar-dropdown.toggled .sidebar-dropdown-content {
+  display: block;
+}
+
+.sidebar-dropdown.toggled .sidebar-dropdown-content li {
+  text-indent: 20px;
+  line-height: 40px;
+  font-family: GandhiSans-Regular;
+}
+
+.sidebar-dropdown.toggled .sidebar-dropdown-content li a {
+  color: rgba(0, 0, 0, 0.7);
+}
+
+.sidebar-dropdown.toggled .sidebar-dropdown-content li a:hover {
+  color: rgba(0, 0, 0, 0.85);
+  text-decoration: none;
+}
+
+.sidebar-dropdown.toggled .sidebar-dropdown-content li a.active {
+  background-color: rgb(70, 128, 216);
+  color: rgba(255, 255, 255, 0.75);
+  text-decoration: none;
+}
+
+.sidebar-nav > .sidebar-logo {
+  color: rgba(255, 255, 255, 0.7);
+  font-family: GandhiSans-BoldItalic;
+  font-size: 18px;
+  height: 50px;
+  line-height: 50px;
+}
+
+.sidebar-nav li {
+  color: rgba(255, 255, 255, 0.6);
+  font-family: GandhiSans-Regular;
+  line-height: 40px;
+  text-indent: 10px;
+}
+
+.sidebar-nav li a {
+  color: rgba(255, 255, 255, 0.6);
+  display: block;
+}
+
+.sidebar-nav li a:active, .sidebar-nav li a:focus {
+  text-decoration: none;
+}
+
+.sidebar-nav li a:hover {
+  background-color: rgba(255, 255, 255, 0.3);
+  color: rgba(255, 255, 255, 0.8);
+  text-decoration: none;
+}
